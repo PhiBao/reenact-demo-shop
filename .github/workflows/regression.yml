@@ -1,6 +1,7 @@
 name: Reenact regression suite
 
 on:
+  workflow_dispatch:
   pull_request:
     paths: ['public/**', 'server.js', 'reenact/tests/**']
 
