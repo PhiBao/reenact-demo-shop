@@ -442,7 +442,9 @@
       ],
       "applied": true,
       "outcome": "not_reproduced",
-      "note": "Not reproduced: Kane followed the reported steps and the expected behavior held on this version."
+      "note": "Not reproduced: Kane followed the reported steps and the expected behavior held on this version.",
+      "regressions": [],
+      "suite_checked": 0
     }
   ],
   "pr_url": "https://github.com/PhiBao/reenact-demo-shop/pull/7",
