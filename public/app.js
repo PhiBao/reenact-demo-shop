@@ -20,7 +20,7 @@ function addToCart(id) {
 function changeQty(id, delta) {
   const line = state.lines.find((l) => l.id === id);
   if (!line) return;
-  line.qty += delta;
+  line.qty = Math.max(1, line.qty + delta);
   render();
 }
 
