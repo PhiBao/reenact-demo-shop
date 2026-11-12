@@ -38,6 +38,8 @@ jobs:
           llm-api-key: ${{ secrets.REENACT_LLM_API_KEY }}
           llm-base-url: ${{ vars.REENACT_LLM_BASE_URL }}
           llm-model: ${{ vars.REENACT_LLM_MODEL }}
+          server-url: ${{ vars.REENACT_SERVER_URL }}
+          upload-token: ${{ secrets.REENACT_UPLOAD_TOKEN }}
 
   fix:
     # `/reenact fix` from someone with write access, on an issue (not a PR).
@@ -59,3 +61,5 @@ jobs:
           llm-api-key: ${{ secrets.REENACT_LLM_API_KEY }}
           llm-base-url: ${{ vars.REENACT_LLM_BASE_URL }}
           llm-model: ${{ vars.REENACT_LLM_MODEL }}
+          server-url: ${{ vars.REENACT_SERVER_URL }}
+          upload-token: ${{ secrets.REENACT_UPLOAD_TOKEN }}
