@@ -24,8 +24,8 @@ function changeQty(id, delta) {
   render();
 }
 
-function removeLine(index) {
-  state.lines.splice(index, 1);
+function removeLine(id) {
+  state.lines = state.lines.filter((l) => l.id !== id);
   render();
 }
 
@@ -54,7 +54,7 @@ function render() {
   $('cart').innerHTML = lines
     .map((l, i) => {
       const p = PRODUCTS.find((x) => x.id === l.id);
-      return `<li><span>${p.name}</span><span class="qty"><button data-dec="${l.id}" aria-label="Decrease ${p.name}">-</button><output>${l.qty}</output><button data-inc="${l.id}" aria-label="Increase ${p.name}">+</button></span><button data-remove="${i}">Remove</button></li>`;
+      return `<li><span>${p.name}</span><span class="qty"><button data-dec="${l.id}" aria-label="Decrease ${p.name}">-</button><output>${l.qty}</output><button data-inc="${l.id}" aria-label="Increase ${p.name}">+</button></span><button data-remove="${l.id}">Remove</button></li>`;
     })
     .join('');
   const sub = subtotal();
@@ -69,7 +69,7 @@ document.addEventListener('click', (e) => {
   if (t.dataset.add) addToCart(t.dataset.add);
   if (t.dataset.inc) changeQty(t.dataset.inc, 1);
   if (t.dataset.dec) changeQty(t.dataset.dec, -1);
-  if (t.dataset.remove !== undefined) removeLine(Number(t.dataset.remove));
+  if (t.dataset.remove !== undefined) removeLine(t.dataset.remove);
 });
 
 $('coupon-form').addEventListener('submit', (e) => {
