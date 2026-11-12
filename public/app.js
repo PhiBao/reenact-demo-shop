@@ -39,7 +39,7 @@ function applyCoupon(code) {
     $('coupon-msg').textContent = 'That code is not valid.';
   } else {
     const items = state.lines.reduce((n, l) => n + l.qty, 0);
-    state.discount = items > 1 ? -10 : 10;
+    state.discount = 10;
     $('coupon-msg').textContent = 'Coupon SAVE10 applied.';
   }
   render();
