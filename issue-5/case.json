@@ -1,9 +1,9 @@
 {
   "id": "issue-5",
-  "created_at": "2026-11-12T20:18:26.104686476Z",
+  "created_at": "2026-11-12T20:19:54.648356529Z",
   "report": {
     "title": "checkout is broken, please fix asap",
-    "body": "it doesnt work for me. tried a few times. very frustrating",
+    "body": "it doesnt work for me. tried a few times. very frustrating\n\n---\nAdditional detail from the issue thread:\n\n[reporter] sorry, i meant the coupon box. my cart was empty, i typed SAVE10 and pressed Apply coupon. it says Coupon SAVE10 applied and the Total shows -$10.00. a coupon should not make me owe a negative amount\n",
     "source_url": "https://github.com/PhiBao/reenact-demo-shop/issues/5",
     "repo": "PhiBao/reenact-demo-shop",
     "number": 5
@@ -12,68 +12,117 @@
   "app_label": "Corner Shop, a small online coffee-gear store with a cart and coupon codes",
   "plan": {
     "in_browser": true,
-    "start_path": "/",
-    "preconditions": [],
-    "steps": [],
-    "expected": "",
-    "reported_actual": "checkout doesn't work for the reporter, no details given",
-    "missing": [
-      "What exactly happens at checkout (error message, blank page, button does nothing, wrong total)?",
-      "Which step of checkout fails (cart, address, payment, order confirmation)?",
-      "Which products and quantities were in the cart?",
-      "Was a coupon code applied, and if so which one?",
-      "What payment or shipping option was selected?",
-      "What did the reporter expect to happen?"
+    "start_path": "/cart",
+    "preconditions": [
+      "the cart is empty",
+      "a coupon box with an Apply coupon button is available"
     ],
-    "confidence": 0.05,
-    "summary": "Checkout reportedly fails; no details on symptoms, steps, or expected behavior",
+    "steps": [
+      "Open the cart page with the cart empty",
+      "Type SAVE10 into the coupon box",
+      "Click the Apply coupon button"
+    ],
+    "expected": "The Total does not show a negative amount such as -$10.00 after applying SAVE10 to an empty cart; it shows $0.00.",
+    "reported_actual": "With an empty cart, applying SAVE10 shows 'Coupon SAVE10 applied' and the Total shows -$10.00.",
+    "missing": [
+      "assumed: the coupon box is on the cart page at /cart",
+      "assumed: the expected Total for an empty cart with a coupon is $0.00 (reporter only says it should not be negative)",
+      "Should the coupon be rejected or applied with a $0.00 total when the cart is empty?"
+    ],
+    "confidence": 0.7,
+    "summary": "Applying coupon SAVE10 to an empty cart makes the Total negative (-$10.00)",
     "signed_in": true
   },
-  "test_md": null,
+  "test_md": "---\nmode: testing\nurl: http://localhost:4100/cart\nheadless: true\nmax_steps: 30\ntags: [reenact, issue-5]\n---\n\n# checkout is broken, please fix asap\n\n## Reproduce the report\nOpen http://localhost:4100/cart.\nStay on localhost:4100 for the whole run and do not open any other website.\nDo each step once, in order. If the app behaves unexpectedly, do not undo, retry, repair or work around it: the behavior itself is what is being checked. Check the result right after the last step.\nSteps:\n1. Open the cart page with the cart empty\n2. Type SAVE10 into the coupon box\n3. Click the Apply coupon button\nThe reporter says the correct behavior is that The Total does not show a negative amount such as -$10.00 after applying SAVE10 to an empty cart; it shows $0.00. Verify that The Total does not show a negative amount such as -$10.00 after applying SAVE10 to an empty cart; it shows $0.00.\n",
   "runs": [
     {
       "kind": "reenact",
-      "label": "intake",
-      "started_at": "2026-11-12T20:18:26.104688579Z",
+      "label": "reenact",
+      "started_at": "2026-11-12T20:19:54.648465160Z",
       "verdict": {
-        "kind": "needs_info",
-        "headline": "The report has no concrete steps to carry out.",
+        "kind": "reproduced",
+        "headline": "The cart page is unavailable, so the coupon total check could not be performed.",
         "stuck_at": null,
-        "root_cause": null,
-        "suggested_fix": null,
-        "severity": null,
-        "confidence": null
+        "root_cause": "Opening the required cart address shows a not-found page instead of the cart. The cart, coupon box, and Apply coupon button never appear.",
+        "suggested_fix": "Restore or correctly route the cart page at /cart, then rerun the empty-cart SAVE10 total check.",
+        "severity": "major",
+        "confidence": 0.98
       },
       "run": {
-        "exit_code": null,
+        "exit_code": 1,
         "timed_out": false,
-        "status": "not_run",
-        "reason": null,
-        "reason_code": null,
-        "summary": null,
-        "credits": 0.0,
-        "duration_s": 0.0,
-        "share_url": null,
-        "failed_step_heading": null,
-        "bug_confirmed": null,
-        "bug_family": null,
-        "bug_title": null,
-        "frames": [],
-        "strip_file": null,
+        "status": "failed",
+        "reason": "The localhost cart URL renders only “not found,” with no cart, coupon box, or Apply coupon button.",
+        "reason_code": "assertion_error.confirmed_product_bug",
+        "summary": "Opening the required cart address shows a not-found page instead of the cart. The cart, coupon box, and Apply coupon button never appear.\nRestore or correctly route the cart page at /cart, then rerun the empty-cart SAVE10 total check.\nevidence: network_failure: GET http://localhost:4100/cart -> 404 body: not found\nevidence: console_error: Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "credits": 15.45293,
+        "duration_s": 78.0,
+        "share_url": "https://test-manager.lambdatest.com/projects/01M77QT4WTQTBAVV7FBBZRHAW1/test-cases/01M78PNQD9XY8BE7ZQK51F7J7C/dashboard/share/US_VSEYHFEZK7VCLPBNJ735RPLA0HR6OF3BCCSMC68YCLMNR8AGFRVLF7P4219HC68X?type=summary&agentView=true&fqdn=summary-page",
+        "failed_step_heading": "Reproduce the report",
+        "bug_confirmed": true,
+        "bug_family": "application_issue",
+        "bug_title": "Cart route returns a not-found page",
+        "frames": [
+          {
+            "ordinal": 1,
+            "kind": "navigate",
+            "label": "Navigate to http://localhost:4100/cart",
+            "status": "passed",
+            "file": "frames/frame-01.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/cart"
+          },
+          {
+            "ordinal": 2,
+            "kind": "wait",
+            "label": "wait for the cart page content to load",
+            "status": "passed",
+            "file": "frames/frame-02.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/cart"
+          },
+          {
+            "ordinal": 3,
+            "kind": "wait",
+            "label": "wait 2000 ms for cart content to load",
+            "status": "passed",
+            "file": "frames/frame-03.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/cart"
+          },
+          {
+            "ordinal": 4,
+            "kind": "",
+            "label": "Waiting after confirming the cart page is unavailable",
+            "status": "failed",
+            "file": "frames/frame-04.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/cart"
+          }
+        ],
+        "strip_file": "strip.png",
         "signals": {
-          "console_errors": [],
-          "failed_requests": []
+          "console_errors": [
+            "Failed to load resource: the server responded with a status of 404 (Not Found)"
+          ],
+          "failed_requests": [
+            "404 GET http://localhost:4100/cart"
+          ]
         },
-        "root_cause": null,
-        "suggested_fix": null,
-        "severity": null,
-        "bug_confidence": null
+        "root_cause": "Opening the required cart address shows a not-found page instead of the cart. The cart, coupon box, and Apply coupon button never appear.",
+        "suggested_fix": "Restore or correctly route the cart page at /cart, then rerun the empty-cart SAVE10 total check.",
+        "severity": "major",
+        "bug_confidence": 0.98
       }
     }
   ],
   "fixes": [],
   "pr_url": null,
-  "state": "needs_info",
+  "state": "reproduced",
   "fix_agent": null,
   "fix_diff": null,
   "reference_diff": null
