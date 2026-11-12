@@ -1,0 +1,233 @@
+{
+  "id": "issue-3",
+  "created_at": "2026-11-12T15:23:46.314911069Z",
+  "report": {
+    "title": "Quantity can go negative",
+    "body": "clicked the minus button on the coffee beans a few times and now the quantity says -2 and my total is NEGATIVE. i basically get paid to take coffee lol. should stop at 1 or remove the item i guess",
+    "source_url": "https://github.com/PhiBao/reenact-demo-shop/issues/3",
+    "repo": "PhiBao/reenact-demo-shop",
+    "number": 3
+  },
+  "app_url": "http://localhost:4100",
+  "app_label": "Corner Shop, a small online coffee-gear store with a cart and coupon codes",
+  "plan": {
+    "in_browser": true,
+    "start_path": "/",
+    "preconditions": [
+      "the store has a product called coffee beans that can be added to the cart",
+      "the cart page has a minus button for item quantity"
+    ],
+    "steps": [
+      "Open the coffee beans product",
+      "Add the coffee beans to the cart",
+      "Open the cart",
+      "Click the minus button next to the coffee beans once",
+      "Click the minus button next to the coffee beans a second time",
+      "Click the minus button next to the coffee beans a third time",
+      "Click the minus button next to the coffee beans a fourth time"
+    ],
+    "expected": "The coffee beans quantity never shows a negative number (it stays at 1 or the item is removed from the cart), and the cart total is never negative.",
+    "reported_actual": "After clicking the minus button several times, the coffee beans quantity shows -2 and the cart total is negative.",
+    "missing": [
+      "assumed: the coffee beans start in the cart with quantity 1 after adding them once, so the reporter's -2 would take about four minus clicks",
+      "assumed: the minus button is in the cart view, not on the product page",
+      "What was the quantity in the cart before the reporter started clicking minus?",
+      "Was a coupon code applied when the total went negative?",
+      "Should the quantity stop at 1 or should the item be removed at 0?"
+    ],
+    "confidence": 0.6,
+    "summary": "Clicking minus on cart item lets quantity go negative, producing a negative total",
+    "signed_in": true
+  },
+  "test_md": "---\nmode: testing\nurl: http://localhost:4100/\nheadless: true\nmax_steps: 30\ntags: [reenact, issue-3]\n---\n\n# Quantity can go negative\n\n## Reproduce the report\nOpen http://localhost:4100/.\nStay on localhost:4100 for the whole run and do not open any other website.\nDo these in order:\n1. Open the coffee beans product\n2. Add the coffee beans to the cart\n3. Open the cart\n4. Click the minus button next to the coffee beans once\n5. Click the minus button next to the coffee beans a second time\n6. Click the minus button next to the coffee beans a third time\n7. Click the minus button next to the coffee beans a fourth time\nThe reporter says the correct behavior is that The coffee beans quantity never shows a negative number (it stays at 1 or the item is removed from the cart), and the cart total is never negative. Verify that The coffee beans quantity never shows a negative number (it stays at 1 or the item is removed from the cart), and the cart total is never negative.\n",
+  "runs": [
+    {
+      "kind": "reenact",
+      "label": "reenact",
+      "started_at": "2026-11-12T15:23:46.315005251Z",
+      "verdict": {
+        "kind": "reproduced",
+        "headline": "The cart keeps reducing coffee beans below zero, which also makes the subtotal and total negative.",
+        "stuck_at": null,
+        "root_cause": "The minus control does not stop at zero or remove the item when no coffee beans remain.",
+        "suggested_fix": "Prevent the minus control from lowering a quantity below zero. At zero, either keep the quantity at zero or remove the item, and ensure the cart total cannot be negative.",
+        "severity": "major",
+        "confidence": 0.99
+      },
+      "run": {
+        "exit_code": 1,
+        "timed_out": false,
+        "status": "failed",
+        "reason": "Final verification failed: \"The coffee beans quantity never shows a negative number (it stays at 1 or the item is removed from the cart), and the cart total is never negative.\"",
+        "reason_code": "assertion_error.confirmed_product_bug",
+        "summary": "The minus control does not stop at zero or remove the item when no coffee beans remain.\nPrevent the minus control from lowering a quantity below zero. At zero, either keep the quantity at zero or remove the item, and ensure the cart total cannot be negative.\nevidence: objective_contradiction: The coffee beans quantity never shows a negative number (it stays at 1 or the item is removed from the cart), and the ca",
+        "credits": 32.153645,
+        "duration_s": 103.0,
+        "share_url": "https://test-manager.lambdatest.com/projects/01M77QT4WTQTBAVV7FBBZRHAW1/test-cases/01M785QM79TKGVGKZPRSCH7R3D/dashboard/share/US_7DCKP0V71R702EOC9FCC38CPTKEKOA24YSHK91EVJW4AH7YU9XA5KOCTKZYV56P5?type=summary&agentView=true&fqdn=summary-page",
+        "failed_step_heading": "Reproduce the report",
+        "bug_confirmed": true,
+        "bug_family": "application_issue",
+        "bug_title": "Cart decrement permits negative coffee-bean quantities and totals",
+        "frames": [
+          {
+            "ordinal": 1,
+            "kind": "navigate",
+            "label": "Navigate to http://localhost:4100/",
+            "status": "passed",
+            "file": "frames/frame-01.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 2,
+            "kind": "wait",
+            "label": "Open the coffee beans product",
+            "status": "passed",
+            "file": "frames/frame-02.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 3,
+            "kind": "click",
+            "label": "Clicking Add coffee button to add coffee beans to cart",
+            "status": "passed",
+            "file": "frames/frame-03.jpg",
+            "annotated_file": "frames/frame-03-annotated.png",
+            "rect": [
+              365.0,
+              239.0,
+              85.0,
+              24.0
+            ],
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 4,
+            "kind": "wait",
+            "label": "Open the cart",
+            "status": "passed",
+            "file": "frames/frame-04.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 5,
+            "kind": "click",
+            "label": "Clicking the minus button to decrease the coffee beans in your cart",
+            "status": "passed",
+            "file": "frames/frame-05.jpg",
+            "annotated_file": "frames/frame-05-annotated.png",
+            "rect": [
+              715.0,
+              239.0,
+              5.0,
+              24.0
+            ],
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 6,
+            "kind": "wait",
+            "label": "queued plan (3 steps): click \"Decrease Coffee beans (250 g)\"; click \"Decrease Co",
+            "status": "passed",
+            "file": "frames/frame-06.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 7,
+            "kind": "click",
+            "label": "Click \"Decrease Coffee beans (250 g)\"",
+            "status": "passed",
+            "file": "frames/frame-07.jpg",
+            "annotated_file": "frames/frame-07-annotated.png",
+            "rect": [
+              715.0,
+              239.0,
+              5.0,
+              24.0
+            ],
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 8,
+            "kind": "",
+            "label": "",
+            "status": "passed",
+            "file": "frames/frame-08.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 9,
+            "kind": "click",
+            "label": "Clicking the minus button to decrease coffee beans to 250 g third time",
+            "status": "passed",
+            "file": "frames/frame-09.jpg",
+            "annotated_file": "frames/frame-09-annotated.png",
+            "rect": [
+              712.0,
+              239.0,
+              5.0,
+              24.0
+            ],
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 10,
+            "kind": "click",
+            "label": "Clicking the minus button next to coffee beans to decrease quantity further",
+            "status": "passed",
+            "file": "frames/frame-10.jpg",
+            "annotated_file": "frames/frame-10-annotated.png",
+            "rect": [
+              712.0,
+              239.0,
+              5.0,
+              24.0
+            ],
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 11,
+            "kind": "analyze",
+            "label": "The cart total is never negative.",
+            "status": "passed",
+            "file": "frames/frame-11.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 12,
+            "kind": "assert",
+            "label": "The coffee beans quantity never shows a negative number (it stays at 1 or the it",
+            "status": "failed",
+            "file": "frames/frame-12.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          }
+        ],
+        "strip_file": "strip.png",
+        "signals": {
+          "console_errors": [],
+          "failed_requests": []
+        },
+        "root_cause": "The minus control does not stop at zero or remove the item when no coffee beans remain.",
+        "suggested_fix": "Prevent the minus control from lowering a quantity below zero. At zero, either keep the quantity at zero or remove the item, and ensure the cart total cannot be negative.",
+        "severity": "major",
+        "bug_confidence": 0.99
+      }
+    }
+  ],
+  "fixes": [],
+  "pr_url": null,
+  "state": "reproduced"
+}
