@@ -20,10 +20,20 @@ jobs:
     # Issue text is untrusted and every run costs money. Auto-run only for people
     # with write access; for anyone else a maintainer adds the `reenact` label.
     if: >-
-      github.event_name == 'issues' && (
+      (github.event_name == 'issues' && (
         (github.event.action == 'opened' && contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association)) ||
         (github.event.action == 'labeled' && github.event.label.name == 'reenact')
-      )
+      )) ||
+      (github.event_name == 'issue_comment' && !github.event.issue.pull_request &&
+        github.event.comment.user.type != 'Bot' &&
+        !startsWith(github.event.comment.body, '/reenact') &&
+        contains(github.event.issue.labels.*.name, 'reenact:needs-info') &&
+        (
+          contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association) ||
+          (github.event.comment.user.login == github.event.issue.user.login &&
+           (contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association) ||
+            contains(github.event.issue.labels.*.name, 'reenact')))
+        ))
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
