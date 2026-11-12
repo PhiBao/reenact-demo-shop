@@ -59,8 +59,9 @@ function render() {
     .join('');
   const sub = subtotal();
   $('subtotal').textContent = money(sub);
-  $('discount').textContent = money(-state.discount);
-  $('total').textContent = money(sub - state.discount);
+  const discount = Math.min(state.discount, sub);
+  $('discount').textContent = money(-discount);
+  $('total').textContent = money(sub - discount);
 }
 
 document.addEventListener('click', (e) => {
