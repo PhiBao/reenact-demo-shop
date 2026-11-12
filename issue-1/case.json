@@ -1,6 +1,6 @@
 {
   "id": "issue-1",
-  "created_at": "2026-11-12T12:48:53.364087384Z",
+  "created_at": "2026-11-12T15:44:39.555149335Z",
   "report": {
     "title": "Coupon makes my total go UP",
     "body": "tried the SAVE10 code from the newsletter. I had 2 things in my cart (coffee beans and a mug, total showed $20.00), typed SAVE10 in the coupon box and hit \"Apply coupon\". It says \"Coupon SAVE10 applied.\" but the total is now $30.00?? It should be $10 off, so $10.\n\nSeems fine if there's only 1 item in the cart. Chrome on mac.\n",
@@ -14,59 +14,60 @@
     "in_browser": true,
     "start_path": "/",
     "preconditions": [
-      "the cart contains two items: coffee beans and a mug",
-      "the cart total shows $20.00"
+      "the cart is empty on a fresh install",
+      "the store sells coffee beans and a mug",
+      "a coupon code SAVE10 exists and gives $10 off",
+      "the cart with coffee beans and a mug totals $20.00"
     ],
     "steps": [
       "Add the coffee beans to the cart",
       "Add the mug to the cart",
       "Open the cart",
+      "Confirm the cart total shows $20.00",
       "Type SAVE10 in the coupon box",
-      "Click the \"Apply coupon\" button"
+      "Click \"Apply coupon\""
     ],
-    "expected": "after applying SAVE10 the cart total shows $10.00",
-    "reported_actual": "The message \"Coupon SAVE10 applied.\" is shown but the total increases to $30.00 instead of decreasing to $10.00",
+    "expected": "after applying SAVE10 the page shows \"Coupon SAVE10 applied.\" and the cart total shows $10.00",
+    "reported_actual": "The page shows \"Coupon SAVE10 applied.\" but the total increases to $30.00 instead of decreasing to $10.00. With only 1 item in the cart it works fine.",
     "missing": [
-      "assumed: the cart page is reached by opening the cart from the site navigation, since the report does not give a path",
-      "assumed: the coffee beans and mug are added from the store's product listing, and together they total $20.00",
-      "What are the individual prices of the coffee beans and the mug?",
-      "Is the SAVE10 code a flat $10 off or a percentage discount? The reporter expects $10 off a $20.00 total",
-      "Does the coupon work as expected with only one item in the cart? The reporter says it seems fine, but gave no details",
-      "Were the quantities of each item 1?"
+      "assumed: the products are named 'coffee beans' and 'mug' in the store catalog",
+      "assumed: the cart is reached by a cart link or page reachable from the start page",
+      "What are the exact prices of coffee beans and the mug individually?",
+      "Does the coupon box apply to the whole cart or per-item?"
     ],
-    "confidence": 0.8,
-    "summary": "Applying coupon SAVE10 to a 2-item $20.00 cart raises the total to $30.00 instead of lowering it",
+    "confidence": 0.6,
+    "summary": "Applying SAVE10 with 2 items in cart raises total from $20.00 to $30.00 instead of lowering to $10.00",
     "signed_in": true
   },
-  "test_md": "---\nmode: testing\nurl: http://localhost:4100/\nheadless: true\nmax_steps: 30\ntags: [reenact, issue-1]\n---\n\n# Coupon makes my total go UP\n\n## Reproduce the report\nOpen http://localhost:4100/.\nStay on localhost:4100 for the whole run and do not open any other website.\nBefore the main steps, make sure of this: the cart contains two items: coffee beans and a mug; the cart total shows $20.00.\nDo these in order:\n1. Add the coffee beans to the cart\n2. Add the mug to the cart\n3. Open the cart\n4. Type SAVE10 in the coupon box\n5. Click the \"Apply coupon\" button\nThe reporter says the correct behavior is that after applying SAVE10 the cart total shows $10.00. Verify that after applying SAVE10 the cart total shows $10.00.\n",
+  "test_md": "---\nmode: testing\nurl: http://localhost:4100/\nheadless: true\nmax_steps: 30\ntags: [reenact, issue-1]\n---\n\n# Coupon makes my total go UP\n\n## Reproduce the report\nOpen http://localhost:4100/.\nStay on localhost:4100 for the whole run and do not open any other website.\nDo each step once, in order. If the app behaves unexpectedly, do not undo, retry, repair or work around it: the behavior itself is what is being checked. Check the result right after the last step.\nSteps:\n1. Add the coffee beans to the cart\n2. Add the mug to the cart\n3. Open the cart\n4. Confirm the cart total shows $20.00\n5. Type SAVE10 in the coupon box\n6. Click \"Apply coupon\"\nThe reporter says the correct behavior is that after applying SAVE10 the page shows \"Coupon SAVE10 applied.\" and the cart total shows $10.00. Verify that after applying SAVE10 the page shows \"Coupon SAVE10 applied.\" and the cart total shows $10.00.\n",
   "runs": [
     {
       "kind": "reenact",
       "label": "reenact",
-      "started_at": "2026-11-12T12:48:53.364205165Z",
+      "started_at": "2026-11-12T15:44:39.555257597Z",
       "verdict": {
         "kind": "reproduced",
-        "headline": "Applying SAVE10 reports success but changes the $20.00 cart total to $30.00 instead of $10.00.",
+        "headline": "Applying SAVE10 to the $20.00 coffee-beans-and-mug cart left the total unchanged and showed no confirmation message.",
         "stuck_at": null,
-        "root_cause": "The coupon is accepted, but the cart calculates the discount in the wrong direction or amount.",
-        "suggested_fix": "Fix the SAVE10 discount calculation so that a $20.00 cart displays a $10.00 total after the coupon is applied.",
+        "root_cause": "The valid coupon action did not update the cart or tell the shopper that the coupon was applied.",
+        "suggested_fix": "Check the SAVE10 coupon handling for a cart containing coffee beans and an enamel mug. It should show “Coupon SAVE10 applied.” and reduce the $20.00 total to $10.00 after Apply coupon.",
         "severity": "major",
-        "confidence": 0.98
+        "confidence": 0.94
       },
       "run": {
         "exit_code": 1,
         "timed_out": false,
         "status": "failed",
-        "reason": "SAVE10 reports applied, but the cart total is $30.00 rather than the required $10.00.",
+        "reason": "Final verification failed: \"after applying SAVE10 the page shows \"Coupon SAVE10 applied.\" and the cart total shows $10.00\"",
         "reason_code": "assertion_error.confirmed_product_bug",
-        "summary": "The coupon is accepted, but the cart calculates the discount in the wrong direction or amount.\nFix the SAVE10 discount calculation so that a $20.00 cart displays a $10.00 total after the coupon is applied.\nevidence: objective_contradiction: SAVE10 reports applied, but the cart total is $30.00 rather than the required $10.00.",
-        "credits": 28.8942875,
-        "duration_s": 68.0,
-        "share_url": "https://test-manager.lambdatest.com/projects/01M77QT4WTQTBAVV7FBBZRHAW1/test-cases/01M77WVTFG5ZQK65JHCZ77S2YM/dashboard/share/US_UHEYUKOD2B4WBNQMTJ55I3LM0P0PM6Z49AVZPWOY9ZDM3I4FUKTN6WZ5TW5HFRWR?type=summary&agentView=true&fqdn=summary-page",
+        "summary": "The valid coupon action did not update the cart or tell the shopper that the coupon was applied.\nCheck the SAVE10 coupon handling for a cart containing coffee beans and an enamel mug. It should show “Coupon SAVE10 applied.” and reduce the $20.00 total to $10.00 after Apply coupon.\nevidence: objective_contradiction: Final verification failed: \"after applying SAVE10 the page shows \"Coupon SAVE10 applied.\" and the cart total shows $10.0",
+        "credits": 30.79715,
+        "duration_s": 72.0,
+        "share_url": "https://test-manager.lambdatest.com/projects/01M77QT4WTQTBAVV7FBBZRHAW1/test-cases/01M786XGTM9RCG6P9K21QJP98Y/dashboard/share/US_U5I1QJ97TL26DPFY1X0V8JGSUJXS7NS6RNZ1YXPY1Q8EYYZ5U4KVJV4756C81PT8?type=summary&agentView=true&fqdn=summary-page",
         "failed_step_heading": "Reproduce the report",
         "bug_confirmed": true,
         "bug_family": "application_issue",
-        "bug_title": "SAVE10 increases cart total instead of applying discount",
+        "bug_title": "SAVE10 coupon does not apply to eligible cart",
         "frames": [
           {
             "ordinal": 1,
@@ -131,7 +132,7 @@
           {
             "ordinal": 6,
             "kind": "assert",
-            "label": "the cart contains two items: coffee beans and a mug; the cart total shows $20.00",
+            "label": "the cart total shows $20.00",
             "status": "passed",
             "file": "frames/frame-06.jpg",
             "annotated_file": null,
@@ -141,7 +142,7 @@
           {
             "ordinal": 7,
             "kind": "type",
-            "label": "Typing SAVE10 into the coupon code box",
+            "label": "Typing SAVE10 in the coupon code box",
             "status": "passed",
             "file": "frames/frame-07.jpg",
             "annotated_file": "frames/frame-07-annotated.png",
@@ -156,7 +157,7 @@
           {
             "ordinal": 8,
             "kind": "click",
-            "label": "Clicking the Apply coupon button",
+            "label": "Clicking Apply coupon in your cart form",
             "status": "passed",
             "file": "frames/frame-08.jpg",
             "annotated_file": "frames/frame-08-annotated.png",
@@ -170,209 +171,38 @@
           },
           {
             "ordinal": 9,
-            "kind": "",
-            "label": "Waiting after applying the coupon",
-            "status": "failed",
+            "kind": "analyze",
+            "label": "the cart total shows $10.00",
+            "status": "passed",
             "file": "frames/frame-09.jpg",
             "annotated_file": null,
             "rect": null,
             "url": "http://localhost:4100/"
-          }
-        ],
-        "strip_file": null,
-        "signals": {
-          "console_errors": [],
-          "failed_requests": []
-        },
-        "root_cause": "The coupon is accepted, but the cart calculates the discount in the wrong direction or amount.",
-        "suggested_fix": "Fix the SAVE10 discount calculation so that a $20.00 cart displays a $10.00 total after the coupon is applied.",
-        "severity": "major",
-        "bug_confidence": 0.98
-      }
-    },
-    {
-      "kind": "verify_fix",
-      "label": "fix attempt 1",
-      "started_at": "2026-11-12T12:54:19.742231188Z",
-      "verdict": {
-        "kind": "not_reproduced",
-        "headline": "Kane followed the reported steps and the expected behavior held on this version.",
-        "stuck_at": null,
-        "root_cause": null,
-        "suggested_fix": null,
-        "severity": null,
-        "confidence": null
-      },
-      "run": {
-        "exit_code": 0,
-        "timed_out": false,
-        "status": "passed",
-        "reason": "Objective completed",
-        "reason_code": "success.complete",
-        "summary": "Added the coffee beans and enamel mug to the cart on localhost:4100.\nOpened the cart and confirmed it contained both items with a total of $20.00.\nEntered the SAVE10 coupon and applied it; the cart total was reduced to $10.00.",
-        "credits": 24.2136035,
-        "duration_s": 64.0,
-        "share_url": "https://test-manager.lambdatest.com/projects/01M77QT4WTQTBAVV7FBBZRHAW1/test-cases/01M77X5KWYW85ARSAMG7PH39NY/dashboard/share/US_68M0EC4NYATQAFP9BO3RELZP32ZY689GT7P1DTVL7535ZCZA9NJ39RWXHJRFA2V9?type=summary&agentView=true&fqdn=summary-page",
-        "failed_step_heading": null,
-        "bug_confirmed": null,
-        "bug_family": null,
-        "bug_title": null,
-        "frames": [
-          {
-            "ordinal": 1,
-            "kind": "navigate",
-            "label": "Navigate to http://localhost:4100/",
-            "status": "passed",
-            "file": "frames/fix1-frame-01.jpg",
-            "annotated_file": null,
-            "rect": null,
-            "url": "http://localhost:4100/"
-          },
-          {
-            "ordinal": 2,
-            "kind": "click",
-            "label": "Clicking Add coffee in the products list to add the coffee beans to cart",
-            "status": "passed",
-            "file": "frames/fix1-frame-02.jpg",
-            "annotated_file": "frames/fix1-frame-02-annotated.png",
-            "rect": [
-              365.0,
-              239.0,
-              85.0,
-              24.0
-            ],
-            "url": "http://localhost:4100/"
-          },
-          {
-            "ordinal": 3,
-            "kind": "click",
-            "label": "Clicking Add enamel to add the mug to the cart",
-            "status": "passed",
-            "file": "frames/fix1-frame-03.jpg",
-            "annotated_file": "frames/fix1-frame-03-annotated.png",
-            "rect": [
-              355.0,
-              298.0,
-              95.0,
-              24.0
-            ],
-            "url": "http://localhost:4100/"
-          },
-          {
-            "ordinal": 4,
-            "kind": "wait",
-            "label": "Open the cart",
-            "status": "passed",
-            "file": "frames/fix1-frame-04.jpg",
-            "annotated_file": null,
-            "rect": null,
-            "url": "http://localhost:4100/"
-          },
-          {
-            "ordinal": 5,
-            "kind": "analyze",
-            "label": "the cart total shows $20.00",
-            "status": "passed",
-            "file": "frames/fix1-frame-05.jpg",
-            "annotated_file": null,
-            "rect": null,
-            "url": "http://localhost:4100/"
-          },
-          {
-            "ordinal": 6,
-            "kind": "assert",
-            "label": "the cart contains two items: coffee beans and a mug; the cart total shows $20.00",
-            "status": "passed",
-            "file": "frames/fix1-frame-06.jpg",
-            "annotated_file": null,
-            "rect": null,
-            "url": "http://localhost:4100/"
-          },
-          {
-            "ordinal": 7,
-            "kind": "wait",
-            "label": "queued plan (2 steps): type \"Coupon code\"; click \"Apply coupon\"",
-            "status": "passed",
-            "file": "frames/fix1-frame-07.jpg",
-            "annotated_file": null,
-            "rect": null,
-            "url": "http://localhost:4100/"
-          },
-          {
-            "ordinal": 8,
-            "kind": "type",
-            "label": "Type \"SAVE10\" into \"Coupon code\"",
-            "status": "passed",
-            "file": "frames/fix1-frame-08.jpg",
-            "annotated_file": "frames/fix1-frame-08-annotated.png",
-            "rect": [
-              617.0,
-              363.0,
-              200.0,
-              24.0
-            ],
-            "url": "http://localhost:4100/"
-          },
-          {
-            "ordinal": 9,
-            "kind": "click",
-            "label": "Click \"Apply coupon\"",
-            "status": "passed",
-            "file": "frames/fix1-frame-09.jpg",
-            "annotated_file": "frames/fix1-frame-09-annotated.png",
-            "rect": [
-              509.0,
-              409.0,
-              109.0,
-              24.0
-            ],
-            "url": "http://localhost:4100/"
           },
           {
             "ordinal": 10,
-            "kind": "analyze",
-            "label": "after applying SAVE10 the cart total shows $10.00",
-            "status": "passed",
-            "file": "frames/fix1-frame-10.jpg",
-            "annotated_file": null,
-            "rect": null,
-            "url": "http://localhost:4100/"
-          },
-          {
-            "ordinal": 11,
             "kind": "assert",
-            "label": "after applying SAVE10 the cart total shows $10.00",
-            "status": "passed",
-            "file": "frames/fix1-frame-11.jpg",
+            "label": "after applying SAVE10 the page shows \"Coupon SAVE10 applied.\" and the cart total",
+            "status": "failed",
+            "file": "frames/frame-10.jpg",
             "annotated_file": null,
             "rect": null,
             "url": "http://localhost:4100/"
           }
         ],
-        "strip_file": "fix1-strip.png",
+        "strip_file": "strip.png",
         "signals": {
           "console_errors": [],
           "failed_requests": []
         },
-        "root_cause": null,
-        "suggested_fix": null,
-        "severity": null,
-        "bug_confidence": null
+        "root_cause": "The valid coupon action did not update the cart or tell the shopper that the coupon was applied.",
+        "suggested_fix": "Check the SAVE10 coupon handling for a cart containing coffee beans and an enamel mug. It should show “Coupon SAVE10 applied.” and reduce the $20.00 total to $10.00 after Apply coupon.",
+        "severity": "major",
+        "bug_confidence": 0.94
       }
     }
   ],
-  "fixes": [
-    {
-      "attempt": 1,
-      "rationale": "applyCoupon set the discount to -10 when the cart had more than one item, and total is computed as subtotal minus discount, so the coupon added $10. Always using a +10 discount fixes it.",
-      "files": [
-        "public/app.js"
-      ],
-      "applied": true,
-      "outcome": "not_reproduced",
-      "note": "Not reproduced: Kane followed the reported steps and the expected behavior held on this version."
-    }
-  ],
-  "pr_url": "https://github.com/PhiBao/reenact-demo-shop/pull/2",
-  "state": "fixed"
+  "fixes": [],
+  "pr_url": null,
+  "state": "reproduced"
 }
