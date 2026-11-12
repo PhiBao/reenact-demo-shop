@@ -1,0 +1,61 @@
+name: Reenact
+
+on:
+  issues:
+    types: [opened, labeled]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: reenact-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  reproduce:
+    # Issue text is untrusted and every run costs money. Auto-run only for people
+    # with write access; for anyone else a maintainer adds the `reenact` label.
+    if: >-
+      github.event_name == 'issues' && (
+        (github.event.action == 'opened' && contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association)) ||
+        (github.event.action == 'labeled' && github.event.label.name == 'reenact')
+      )
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: PhiBao/reenact@main
+        with:
+          mode: repro
+          start-command: node server.js
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          testmu-username: ${{ secrets.TESTMU_USERNAME }}
+          testmu-access-key: ${{ secrets.TESTMU_ACCESS_KEY }}
+          llm-api-key: ${{ secrets.REENACT_LLM_API_KEY }}
+          llm-base-url: ${{ vars.REENACT_LLM_BASE_URL }}
+          llm-model: ${{ vars.REENACT_LLM_MODEL }}
+
+  fix:
+    # `/reenact fix` from someone with write access, on an issue (not a PR).
+    if: >-
+      github.event_name == 'issue_comment' && !github.event.issue.pull_request &&
+      startsWith(github.event.comment.body, '/reenact fix') &&
+      contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: PhiBao/reenact@main
+        with:
+          mode: fix
+          start-command: node server.js
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          testmu-username: ${{ secrets.TESTMU_USERNAME }}
+          testmu-access-key: ${{ secrets.TESTMU_ACCESS_KEY }}
+          llm-api-key: ${{ secrets.REENACT_LLM_API_KEY }}
+          llm-base-url: ${{ vars.REENACT_LLM_BASE_URL }}
+          llm-model: ${{ vars.REENACT_LLM_MODEL }}

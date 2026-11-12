@@ -1,0 +1,20 @@
+name: Reenact regression suite
+
+on:
+  pull_request:
+    paths: ['public/**', 'server.js', 'reenact/tests/**']
+
+jobs:
+  suite:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: PhiBao/reenact@main
+        with:
+          mode: suite
+          start-command: node server.js
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          testmu-username: ${{ secrets.TESTMU_USERNAME }}
+          testmu-access-key: ${{ secrets.TESTMU_ACCESS_KEY }}
+          llm-api-key: ${{ secrets.REENACT_LLM_API_KEY }}
