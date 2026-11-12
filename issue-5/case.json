@@ -1,0 +1,77 @@
+{
+  "id": "issue-5",
+  "created_at": "2026-11-12T15:23:45.716324927Z",
+  "report": {
+    "title": "checkout is broken, please fix asap",
+    "body": "it doesnt work for me. tried a few times. very frustrating",
+    "source_url": "https://github.com/PhiBao/reenact-demo-shop/issues/5",
+    "repo": "PhiBao/reenact-demo-shop",
+    "number": 5
+  },
+  "app_url": "http://localhost:4100",
+  "app_label": "Corner Shop, a small online coffee-gear store with a cart and coupon codes",
+  "plan": {
+    "in_browser": true,
+    "start_path": "/",
+    "preconditions": [],
+    "steps": [],
+    "expected": "",
+    "reported_actual": "checkout doesn't work for the reporter; they tried a few times",
+    "missing": [
+      "What exactly happens at checkout (error message, blank page, button does nothing, wrong total)?",
+      "Which step of checkout fails (cart, shipping, payment, coupon code, order confirmation)?",
+      "Which product(s) and quantities were in the cart?",
+      "Was a coupon code applied, and if so which one?",
+      "What payment or shipping option was selected?",
+      "What did the reporter expect to happen?"
+    ],
+    "confidence": 0.05,
+    "summary": "Checkout reportedly fails; no details on what step or what happens",
+    "signed_in": true
+  },
+  "test_md": null,
+  "runs": [
+    {
+      "kind": "reenact",
+      "label": "intake",
+      "started_at": "2026-11-12T15:23:45.716326640Z",
+      "verdict": {
+        "kind": "needs_info",
+        "headline": "The report has no concrete steps to carry out.",
+        "stuck_at": null,
+        "root_cause": null,
+        "suggested_fix": null,
+        "severity": null,
+        "confidence": null
+      },
+      "run": {
+        "exit_code": null,
+        "timed_out": false,
+        "status": "not_run",
+        "reason": null,
+        "reason_code": null,
+        "summary": null,
+        "credits": 0.0,
+        "duration_s": 0.0,
+        "share_url": null,
+        "failed_step_heading": null,
+        "bug_confirmed": null,
+        "bug_family": null,
+        "bug_title": null,
+        "frames": [],
+        "strip_file": null,
+        "signals": {
+          "console_errors": [],
+          "failed_requests": []
+        },
+        "root_cause": null,
+        "suggested_fix": null,
+        "severity": null,
+        "bug_confidence": null
+      }
+    }
+  ],
+  "fixes": [],
+  "pr_url": null,
+  "state": "needs_info"
+}
