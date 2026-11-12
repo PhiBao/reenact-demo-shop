@@ -146,11 +146,244 @@
         "severity": "major",
         "bug_confidence": 0.99
       }
+    },
+    {
+      "kind": "confirm",
+      "label": "confirm",
+      "started_at": "2026-11-12T20:28:05.221983204Z",
+      "verdict": {
+        "kind": "reproduced",
+        "headline": "Applying SAVE10 to an empty cart displays a Total of -$10.00 instead of keeping the total at $0.00.",
+        "stuck_at": null,
+        "root_cause": "The cart applies the full $10 coupon discount even though there are no items in the cart, so the displayed total drops below zero.",
+        "suggested_fix": "Change coupon calculation so that discounts cannot exceed the cart subtotal. For an empty cart, show a $0.00 discount and retain a $0.00 total, or tell the customer that a cart item is required before the coupon can be applied.",
+        "severity": "major",
+        "confidence": 0.98
+      },
+      "run": {
+        "exit_code": 1,
+        "timed_out": false,
+        "status": "failed",
+        "reason": "Final verification failed: \"The Total does not show a negative amount (it does not show -$10.00); with an empty cart the Total is $0.00.\"",
+        "reason_code": "assertion_error.confirmed_product_bug",
+        "summary": "The cart applies the full $10 coupon discount even though there are no items in the cart, so the displayed total drops below zero.\nChange coupon calculation so that discounts cannot exceed the cart subtotal. For an empty cart, show a $0.00 discount and retain a $0.00 total, or tell the customer that a cart item is required before the coupon can be applied.\nevidence: objective_contradiction: -$10.00",
+        "credits": 19.7773525,
+        "duration_s": 52.0,
+        "share_url": "https://test-manager.lambdatest.com/projects/01M77QT4WTQTBAVV7FBBZRHAW1/test-cases/01M78Q4MCSXBPAZGEMWPNMA0S5/dashboard/share/US_BN6Q0RZMHMNF6RQCURRYC9723M6OTTM2NRPJSMMFXVZ59LDX3FNL4IX0FMOICAZY?type=summary&agentView=true&fqdn=summary-page",
+        "failed_step_heading": "Reproduce the report",
+        "bug_confirmed": true,
+        "bug_family": "application_issue",
+        "bug_title": "Empty-cart coupon produces a negative total",
+        "frames": [
+          {
+            "ordinal": 1,
+            "kind": "navigate",
+            "label": "Navigate to http://localhost:4100/",
+            "status": "passed",
+            "file": "frames/confirm1-frame-01.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 2,
+            "kind": "wait",
+            "label": "Open the cart page with the cart empty",
+            "status": "passed",
+            "file": "frames/confirm1-frame-02.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 3,
+            "kind": "type",
+            "label": "Entering SAVE10 into the coupon box",
+            "status": "passed",
+            "file": "frames/confirm1-frame-03.jpg",
+            "annotated_file": "frames/confirm1-frame-03-annotated.png",
+            "rect": [
+              617.0,
+              269.0,
+              200.0,
+              24.0
+            ],
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 4,
+            "kind": "click",
+            "label": "Clicking the Apply coupon button",
+            "status": "passed",
+            "file": "frames/confirm1-frame-04.jpg",
+            "annotated_file": "frames/confirm1-frame-04-annotated.png",
+            "rect": [
+              509.0,
+              315.0,
+              109.0,
+              24.0
+            ],
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 5,
+            "kind": "analyze",
+            "label": "With an empty cart, the Total is $0.00.",
+            "status": "passed",
+            "file": "frames/confirm1-frame-05.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 6,
+            "kind": "assert",
+            "label": "The Total does not show a negative amount (it does not show -$10.00); with an em",
+            "status": "failed",
+            "file": "frames/confirm1-frame-06.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          }
+        ],
+        "strip_file": "confirm1-strip.png",
+        "signals": {
+          "console_errors": [],
+          "failed_requests": []
+        },
+        "root_cause": "The cart applies the full $10 coupon discount even though there are no items in the cart, so the displayed total drops below zero.",
+        "suggested_fix": "Change coupon calculation so that discounts cannot exceed the cart subtotal. For an empty cart, show a $0.00 discount and retain a $0.00 total, or tell the customer that a cart item is required before the coupon can be applied.",
+        "severity": "major",
+        "bug_confidence": 0.98
+      }
+    },
+    {
+      "kind": "verify_fix",
+      "label": "fix attempt 1",
+      "started_at": "2026-11-12T20:29:12.639200292Z",
+      "verdict": {
+        "kind": "not_reproduced",
+        "headline": "Kane followed the reported steps and the expected behavior held on this version.",
+        "stuck_at": null,
+        "root_cause": null,
+        "suggested_fix": null,
+        "severity": null,
+        "confidence": null
+      },
+      "run": {
+        "exit_code": 0,
+        "timed_out": false,
+        "status": "passed",
+        "reason": "Objective completed",
+        "reason_code": "success.complete",
+        "summary": "Opened the empty cart on localhost:4100.\nEntered the coupon code SAVE10 and applied it.\nThe empty cart total remained $0.00 and did not become -$10.00.",
+        "credits": 13.187708999999998,
+        "duration_s": 55.0,
+        "share_url": "https://test-manager.lambdatest.com/projects/01M77QT4WTQTBAVV7FBBZRHAW1/test-cases/01M78Q4MCSXBPAZGEMWPNMA0S5/dashboard/share/US_SF8I3WJH6THNRG2P8BYC7LY75IO9D88U7YDUKW006PPEU51TU8H13V2I8TI3YKVG?type=summary&agentView=true&fqdn=summary-page",
+        "failed_step_heading": null,
+        "bug_confirmed": null,
+        "bug_family": null,
+        "bug_title": null,
+        "frames": [
+          {
+            "ordinal": 1,
+            "kind": "navigate",
+            "label": "Navigate to http://localhost:4100/",
+            "status": "passed",
+            "file": "frames/fix1-frame-01.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 2,
+            "kind": "wait",
+            "label": "cart page with the cart empty",
+            "status": "passed",
+            "file": "frames/fix1-frame-02.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 3,
+            "kind": "type",
+            "label": "Typing coupon code SAVE10 in coupon box",
+            "status": "passed",
+            "file": "frames/fix1-frame-03.jpg",
+            "annotated_file": "frames/fix1-frame-03-annotated.png",
+            "rect": [
+              617.0,
+              269.0,
+              200.0,
+              24.0
+            ],
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 4,
+            "kind": "click",
+            "label": "Clicking Apply coupon button",
+            "status": "passed",
+            "file": "frames/fix1-frame-04.jpg",
+            "annotated_file": "frames/fix1-frame-04-annotated.png",
+            "rect": [
+              509.0,
+              315.0,
+              109.0,
+              24.0
+            ],
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 5,
+            "kind": "analyze",
+            "label": "Checked the page",
+            "status": "passed",
+            "file": "frames/fix1-frame-05.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          },
+          {
+            "ordinal": 6,
+            "kind": "assert",
+            "label": "The Total does not show a negative amount (it does not show -$10.00); with an em",
+            "status": "passed",
+            "file": "frames/fix1-frame-06.jpg",
+            "annotated_file": null,
+            "rect": null,
+            "url": "http://localhost:4100/"
+          }
+        ],
+        "strip_file": "fix1-strip.png",
+        "signals": {
+          "console_errors": [],
+          "failed_requests": []
+        },
+        "root_cause": null,
+        "suggested_fix": null,
+        "severity": null,
+        "bug_confidence": null
+      }
     }
   ],
-  "fixes": [],
-  "pr_url": null,
-  "state": "reproduced",
+  "fixes": [
+    {
+      "attempt": 1,
+      "rationale": "The flat $10 discount was subtracted from the subtotal without being capped, so an empty cart produced a negative total. Capping the effective discount at the subtotal in render() keeps the total at or above $0.00.",
+      "files": [
+        "public/app.js"
+      ],
+      "applied": true,
+      "outcome": "not_reproduced",
+      "note": "Not reproduced: Kane followed the reported steps and the expected behavior held on this version.",
+      "regressions": [],
+      "suite_checked": 3
+    }
+  ],
+  "pr_url": "https://github.com/PhiBao/reenact-demo-shop/pull/8",
+  "state": "fixed",
   "fix_agent": null,
   "fix_diff": null,
   "reference_diff": null
